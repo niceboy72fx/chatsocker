@@ -1,7 +1,7 @@
 package com.chatsocker.server.services;
 
-import com.chatsocker.server.Repository.TokenRepository;
-import com.chatsocker.server.Repository.UserRepository;
+import com.chatsocker.server.repository.TokenRepository;
+import com.chatsocker.server.repository.UserRepository;
 import com.chatsocker.server.dao.request.authen.AuthenticationRequest;
 import com.chatsocker.server.dao.request.authen.RegisterRequest;
 import com.chatsocker.server.dao.respond.auth.AuthenticationResponse;
@@ -18,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +41,10 @@ public class AuthenticationService {
     @Autowired
     private TokenRepository tokenRepository;
 
+    @Autowired
+    private EmailService emailService;
+
+
     public AuthenticationResponse registerService(RegisterRequest request) {
         var user = User.builder()
                 .userName(request.getUserName())
@@ -52,6 +54,7 @@ public class AuthenticationService {
                 .build();
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
+        emailService.sendEmail(user.getEmail(), "Register success", "Hello, this is a test email from Spring Boot!");
         return AuthenticationResponse.builder().accessToken(jwtToken).build();
     }
 

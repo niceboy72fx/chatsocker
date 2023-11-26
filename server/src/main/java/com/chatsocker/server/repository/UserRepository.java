@@ -1,4 +1,4 @@
-package com.chatsocker.server.Repository;
+package com.chatsocker.server.repository;
 
 import com.chatsocker.server.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

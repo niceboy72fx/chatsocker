@@ -1,6 +1,6 @@
 package com.chatsocker.server.services;
 
-import com.chatsocker.server.Repository.TokenRepository;
+import com.chatsocker.server.repository.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
