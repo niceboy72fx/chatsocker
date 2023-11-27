@@ -11,6 +11,7 @@ import com.chatsocker.server.entity.User;
 import com.chatsocker.server.enums.TokenType;
 import com.chatsocker.server.security.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +46,7 @@ public class AuthenticationService {
     private EmailService emailService;
 
 
-    public AuthenticationResponse registerService(RegisterRequest request) {
+    public AuthenticationResponse registerService(RegisterRequest request) throws MessagingException {
         var user = User.builder()
                 .userName(request.getUserName())
                 .email(request.getEmail())
@@ -54,7 +55,7 @@ public class AuthenticationService {
                 .build();
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
-        emailService.sendEmail(user.getEmail(), "Register success", "Hello, this is a test email from Spring Boot!");
+        emailService.sendEmail(user.getEmail(), "Otp code", request.getUserName());
         return AuthenticationResponse.builder().accessToken(jwtToken).build();
     }
 

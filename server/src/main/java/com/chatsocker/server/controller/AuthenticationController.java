@@ -6,6 +6,7 @@ import com.chatsocker.server.dao.respond.auth.AuthenticationResponse;
 import com.chatsocker.server.services.AuthenticationService;
 import com.chatsocker.server.services.LogoutService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     @Operation(summary = "test api")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) throws MessagingException {
       return ResponseEntity.ok(authenticationService.registerService(request));
     }
 

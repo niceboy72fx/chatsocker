@@ -15,7 +15,7 @@ public class MailConfig {
         mailSender.setHost("smtp-mail.outlook.com");
         mailSender.setPort(587);
         mailSender.setUsername("chatsocker@gmail.com");
-        mailSender.setPassword("SockerChat@123fx");
+        mailSender.setPassword("SockerChat@72fx123");
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
