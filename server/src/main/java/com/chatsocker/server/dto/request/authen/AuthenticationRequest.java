@@ -1,4 +1,4 @@
-package com.chatsocker.server.dao.request.authen;
+package com.chatsocker.server.dto.request.authen;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

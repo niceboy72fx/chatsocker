@@ -15,7 +15,7 @@ public class SwaggerConfig {
                 .group("controller-api")
                 .packagesToScan("com.chatsocker.server.controller") // Specify the package to scan
                 .build();
-
     }
+
 
 }

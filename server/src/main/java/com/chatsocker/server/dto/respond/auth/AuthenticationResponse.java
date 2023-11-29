@@ -1,4 +1,4 @@
-package com.chatsocker.server.dao.respond.auth;
+package com.chatsocker.server.dto.respond.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

@@ -1,5 +1,8 @@
 package com.chatsocker.server.security;
 
+import com.chatsocker.server.entity.Token;
+import com.chatsocker.server.repository.TokenRepository;
+import com.chatsocker.server.services.AuthenticationService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,6 +30,12 @@ public class JwtAuthenticatorFilter extends OncePerRequestFilter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+//    @Autowired
+//    private AuthenticationService authenticationService;
+
+    @Autowired
+    private TokenRepository tokenRepository;
+
     public JwtAuthenticatorFilter(JwtService jwtService , UserDetailsService userDetailsService) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
@@ -41,19 +50,23 @@ public class JwtAuthenticatorFilter extends OncePerRequestFilter {
             filterChain.doFilter(request,response);
             return;
         }
+
         jwt = authHeader.substring(7);
+//        var isExpried = tokenRepository.findByToken(jwt).orElse(null);
         userEmail = jwtService.extractUsername(jwt);
-        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-            if (jwtService.isTokenValid(jwt, userDetails)){
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
+        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null  ){
+
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+                if (jwtService.isTokenValid(jwt, userDetails)){
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities()
+                    );
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
+
         }
         filterChain.doFilter(request ,response);
     }

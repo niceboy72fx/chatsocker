@@ -1,4 +1,4 @@
-package com.chatsocker.server.dao;
+package com.chatsocker.server.dto;
 
 public class MailDetail {
     private String recipient;

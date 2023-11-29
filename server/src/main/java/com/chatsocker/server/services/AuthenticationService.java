@@ -2,9 +2,9 @@ package com.chatsocker.server.services;
 
 import com.chatsocker.server.repository.TokenRepository;
 import com.chatsocker.server.repository.UserRepository;
-import com.chatsocker.server.dao.request.authen.AuthenticationRequest;
-import com.chatsocker.server.dao.request.authen.RegisterRequest;
-import com.chatsocker.server.dao.respond.auth.AuthenticationResponse;
+import com.chatsocker.server.dto.request.authen.AuthenticationRequest;
+import com.chatsocker.server.dto.request.authen.RegisterRequest;
+import com.chatsocker.server.dto.respond.auth.AuthenticationResponse;
 import com.chatsocker.server.entity.Token;
 import com.chatsocker.server.enums.Role;
 import com.chatsocker.server.entity.User;
@@ -56,6 +56,7 @@ public class AuthenticationService {
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
         emailService.sendEmail(user.getEmail(), "Otp code", request.getUserName());
+        saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder().accessToken(jwtToken).build();
     }
 

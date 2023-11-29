@@ -41,6 +41,13 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<OtpCode> otpCodes;
 
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+    private List<Messenger> message;
+
+    @ManyToOne
+    @JoinColumn(name="group_id")
+    private Group group;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
